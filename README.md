@@ -1,4 +1,4 @@
-# 🛠️ DevTiles
+#   DevTiles
 
 [![Android](https://img.shields.io/badge/Platform-Android-3DDC84.svg?style=flat-square&logo=android)](https://www.android.com)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF.svg?style=flat-square&logo=kotlin)](https://kotlinlang.org)
@@ -8,14 +8,14 @@
 
 ---
 
-## ✨ Funcionalidades
+##   Funcionalidades
 
-### 🧩 Configurações Rápidas (QS Tiles)
+###   Configurações Rápidas (QS Tiles)
 *   **Modo Desenv.:** Alterna as Opções do Desenvolvedor.
 *   **Depuração USB:** Alterna a depuração via cabo.
 *   **Depuração WiFi:** Alterna a depuração via rede (Android 11+).
 
-### 🚀 Recursos Avançados
+###   Recursos Avançados
 *   **Modo Legado (Porta 5555):** Força a depuração WiFi na porta clássica 5555, permitindo conexões em dispositivos que não possuem a tela de pareamento (código de 6 dígitos).
 *   **Atalhos Inteligentes:** Botões dedicados para **Shizuku** e **Termux** que geram comandos prontos para uso.
 *   **Cópia Automática:** Ao abrir as janelas de comando, o código necessário é copiado automaticamente para a área de transferência.
@@ -24,7 +24,7 @@
 
 ---
 
-## 🚀 Instalação e Configuração
+##   Instalação e Configuração
 
 O Android exige a permissão `WRITE_SECURE_SETTINGS` para que o app funcione.
 
@@ -46,7 +46,7 @@ Se o seu dispositivo não mostra o código de pareamento WiFi:
 
 ---
 
-## 🛠️ Detalhes Técnicos
+##   Detalhes Técnicos
 
 *   **Linguagem:** Kotlin
 *   **UI:** Jetpack Compose com Material Design 3.
@@ -55,9 +55,9 @@ Se o seu dispositivo não mostra o código de pareamento WiFi:
 
 ---
 
-## 📄 Licença
+##   Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
-*Desenvolvido para agilizar o fluxo de trabalho de desenvolvedores Android.*
+#KeepAndroidOpen
