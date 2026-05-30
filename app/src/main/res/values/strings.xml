@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DevTiles</string>
+    <string name="tile_dev_mode">Modo Desenv.</string>
+    <string name="tile_usb_debug">Depuração USB</string>
+    <string name="tile_wifi_debug">Depuração WiFi</string>
+    
+    <string name="perm_status_title">Status da Permissão</string>
+    <string name="perm_granted">Concedida</string>
+    <string name="perm_not_granted">Não Concedida</string>
+    <string name="perm_description">Este aplicativo precisa da permissão WRITE_SECURE_SETTINGS para alterar as configurações de desenvolvedor.</string>
+    <string name="adb_instruction">Execute o seguinte comando via ADB para conceder a permissão:</string>
+    <string name="adb_command">adb shell pm grant com.mss.devtiles android.permission.WRITE_SECURE_SETTINGS</string>
+    <string name="copy_command">Copiar Comando</string>
+</resources>
