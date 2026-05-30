@@ -90,6 +90,8 @@ fun MainScreen() {
         } else {
             WifiDebugDetailsSection(context)
             Spacer(modifier = Modifier.height(16.dp))
+            LegacyModeSection(context)
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Tudo pronto! Você já pode adicionar os botões no seu painel de configurações rápidas.",
                 textAlign = TextAlign.Center,
@@ -235,7 +237,6 @@ fun LegacyModeSection(context: Context) {
             Button(
                 onClick = {
                     try {
-                        // Tenta forçar a porta 5555
                         Settings.Global.putInt(context.contentResolver, "adb_wifi_enabled", 1)
                         Settings.Global.putInt(context.contentResolver, "adb_wifi_port", 5555)
                         Toast.makeText(context, "Tentando ativar porta 5555...", Toast.LENGTH_SHORT).show()
@@ -266,7 +267,6 @@ fun WifiDebugDetailsSection(context: Context) {
         mutableStateOf(Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0) 
     }
     
-    // Observer to detect changes in system settings in real-time
     DisposableEffect(Unit) {
         val observer = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
@@ -290,7 +290,7 @@ fun WifiDebugDetailsSection(context: Context) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 4.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
@@ -365,13 +365,13 @@ fun DevTilesTheme(
             primary = Color(0xFFD0BCFF),
             secondary = Color(0xFFCCC2DC),
             tertiary = Color(0xFFEFB8C8),
-            background = Color(0xFF000000), // Pure AMOLED Black
-            surface = Color(0xFF000000),    // Pure AMOLED Black
+            background = Color(0xFF000000), 
+            surface = Color(0xFF000000),    
             onPrimary = Color(0xFF381E72),
             onSecondary = Color(0xFF332D41),
             onBackground = Color(0xFFE6E1E5),
             onSurface = Color(0xFFE6E1E5),
-            surfaceVariant = Color(0xFF212121), // Slightly lighter for contrast
+            surfaceVariant = Color(0xFF212121), 
             onSurfaceVariant = Color(0xFFCAC4D0)
         )
     } else {
