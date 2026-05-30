@@ -4,11 +4,17 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,8 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-
-import androidx.activity.enableEdgeToEdge
+import java.net.Inet4Address
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +88,8 @@ fun MainScreen() {
         if (!isPermissionGranted) {
             AdbInstructionsSection(context)
         } else {
+            WifiDebugDetailsSection(context)
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Tudo pronto! Você já pode adicionar os botões no seu painel de configurações rápidas.",
                 textAlign = TextAlign.Center,
@@ -201,6 +208,74 @@ fun AdbInstructionsSection(context: Context) {
             Spacer(modifier = Modifier.width(8.dp))
             Text(stringResource(id = R.string.copy_command))
         }
+    }
+}
+
+@Composable
+fun WifiDebugDetailsSection(context: Context) {
+    val ipAddress = remember { getIpAddress(context) }
+    val adbPort = remember { getAdbWifiPort(context) }
+    val isWifiDebugEnabled = remember { 
+        Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0 
+    }
+
+    if (isWifiDebugEnabled) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = stringResource(id = R.string.wifi_debug_details),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = stringResource(id = R.string.ip_address, ipAddress))
+                Text(text = stringResource(id = R.string.adb_port, adbPort))
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Button(
+                    onClick = {
+                        try {
+                            val intent = Intent("android.settings.WIFI_ADB_SETTINGS")
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, R.string.pairing_not_found, Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(id = R.string.open_pairing_screen))
+                }
+            }
+        }
+    }
+}
+
+fun getIpAddress(context: Context): String {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network = cm.activeNetwork ?: return "N/A"
+    val lp = cm.getLinkProperties(network) ?: return "N/A"
+    for (addr in lp.linkAddresses) {
+        val address = addr.address
+        if (address is Inet4Address && !address.isLoopbackAddress) {
+            return address.hostAddress ?: "N/A"
+        }
+    }
+    return "N/A"
+}
+
+fun getAdbWifiPort(context: Context): String {
+    return try {
+        Settings.Global.getInt(context.contentResolver, "adb_wifi_port", 0).let {
+            if (it == 0) "5555 (Padrão)" else it.toString()
+        }
+    } catch (e: Exception) {
+        "Desconhecida"
     }
 }
 

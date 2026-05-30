@@ -11,4 +11,10 @@
     <string name="adb_instruction">Execute o seguinte comando via ADB para conceder a permissão:</string>
     <string name="adb_command">adb shell pm grant com.mss.devtiles android.permission.WRITE_SECURE_SETTINGS</string>
     <string name="copy_command">Copiar Comando</string>
+    
+    <string name="wifi_debug_details">Detalhes da Conexão WiFi</string>
+    <string name="ip_address">Endereço IP: %1$s</string>
+    <string name="adb_port">Porta ADB: %1$s</string>
+    <string name="open_pairing_screen">Abrir Tela de Pareamento</string>
+    <string name="pairing_not_found">Tela de pareamento não encontrada neste dispositivo.</string>
 </resources>
