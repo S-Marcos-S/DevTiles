@@ -253,6 +253,20 @@ fun LegacyModeSection(context: Context) {
             ) {
                 Text(stringResource(id = R.string.activate_5555))
             }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            OutlinedButton(
+                onClick = {
+                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("ADB Reset", "adb kill-server")
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(context, "Comando 'adb kill-server' copiado!", Toast.LENGTH_SHORT).show()
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(id = R.string.reset_adb))
+            }
             
             Spacer(modifier = Modifier.height(8.dp))
             
