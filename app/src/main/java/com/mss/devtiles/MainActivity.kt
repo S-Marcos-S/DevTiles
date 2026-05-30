@@ -212,6 +212,55 @@ fun AdbInstructionsSection(context: Context) {
 }
 
 @Composable
+fun LegacyModeSection(context: Context) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        )
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(id = R.string.legacy_mode_title),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = stringResource(id = R.string.legacy_mode_desc),
+                style = MaterialTheme.typography.bodySmall
+            )
+            
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            Button(
+                onClick = {
+                    try {
+                        // Tenta forçar a porta 5555
+                        Settings.Global.putInt(context.contentResolver, "adb_wifi_enabled", 1)
+                        Settings.Global.putInt(context.contentResolver, "adb_wifi_port", 5555)
+                        Toast.makeText(context, "Tentando ativar porta 5555...", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(id = R.string.activate_5555))
+            }
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text(
+                text = stringResource(id = R.string.termux_instruction),
+                style = MaterialTheme.typography.labelSmall,
+                fontFamily = FontFamily.Monospace,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
+    }
+}
+
+@Composable
 fun WifiDebugDetailsSection(context: Context) {
     var isWifiDebugEnabled by remember { 
         mutableStateOf(Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0) 
