@@ -23,4 +23,12 @@
     <string name="termux_instruction_label">No Termux, execute:</string>
     <string name="termux_command_value">adb connect localhost:5555\nadb -s localhost:5555 shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh</string>
     <string name="reset_adb">Reiniciar Servidor ADB</string>
+    
+    <string name="shizuku_label">Shizuku</string>
+    <string name="termux_label">Termux</string>
+    <string name="command_copied">Comando copiado para a área de transferência!</string>
+    <string name="close">Fechar</string>
+    <string name="shizuku_dialog_title">Conectar Shizuku</string>
+    <string name="termux_dialog_title">Conectar ADB no Termux</string>
+    <string name="termux_adb_connect">adb connect localhost:5555</string>
 </resources>

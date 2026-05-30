@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -218,8 +219,44 @@ fun AdbInstructionsSection(context: Context) {
 
 @Composable
 fun LegacyModeSection(context: Context) {
-    val termuxLabel = stringResource(id = R.string.termux_instruction_label)
-    val termuxCmd = stringResource(id = R.string.termux_command_value)
+    var showDialog by remember { mutableStateOf<String?>(null) }
+    val shizukuCmd = stringResource(id = R.string.termux_command_value)
+    val termuxAdbCmd = stringResource(id = R.string.termux_adb_connect)
+
+    if (showDialog != null) {
+        val commandToCopy = showDialog!!
+        LaunchedEffect(commandToCopy) {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("ADB Command", commandToCopy)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, R.string.command_copied, Toast.LENGTH_SHORT).show()
+        }
+
+        AlertDialog(
+            onDismissRequest = { showDialog = null },
+            title = { 
+                Text(if (commandToCopy == shizukuCmd) stringResource(R.string.shizuku_dialog_title) 
+                     else stringResource(R.string.termux_dialog_title)) 
+            },
+            text = {
+                Text(
+                    text = commandToCopy,
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                        .padding(8.dp)
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showDialog = null }) {
+                    Text(stringResource(R.string.close))
+                }
+            }
+        )
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -268,40 +305,49 @@ fun LegacyModeSection(context: Context) {
                 Text(stringResource(id = R.string.reset_adb))
             }
             
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            Text(
-                text = termuxLabel,
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
+            Spacer(modifier = Modifier.height(12.dp))
             
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = termuxCmd,
-                    style = MaterialTheme.typography.labelSmall,
-                    fontFamily = FontFamily.Monospace,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                AppShortcutButton(
+                    label = stringResource(R.string.shizuku_label),
+                    iconRes = R.drawable.ic_shizuku,
+                    onClick = { showDialog = shizukuCmd },
                     modifier = Modifier.weight(1f)
                 )
-                IconButton(onClick = {
-                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("Termux Command", termuxCmd)
-                    clipboard.setPrimaryClip(clip)
-                    Toast.makeText(context, "Comando copiado!", Toast.LENGTH_SHORT).show()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ContentCopy,
-                        contentDescription = "Copiar comando",
-                        modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
+                AppShortcutButton(
+                    label = stringResource(R.string.termux_label),
+                    iconRes = R.drawable.ic_termux,
+                    onClick = { showDialog = termuxAdbCmd },
+                    modifier = Modifier.weight(1f)
+                )
             }
+        }
+    }
+}
+
+@Composable
+fun AppShortcutButton(
+    label: String,
+    iconRes: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ElevatedButton(
+        onClick = onClick,
+        contentPadding = PaddingValues(8.dp),
+        modifier = modifier
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = iconRes),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = label, fontSize = 12.sp)
         }
     }
 }
