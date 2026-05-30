@@ -20,5 +20,6 @@
     <string name="legacy_mode_title">Modo Legado (Sem Código)</string>
     <string name="legacy_mode_desc">Tenta forçar a porta 5555. Se funcionar, você pode conectar via Termux sem precisar de código de pareamento.</string>
     <string name="activate_5555">Ativar Porta 5555</string>
-    <string name="termux_instruction">No Termux, execute:\nadb connect localhost:5555\nsh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh</string>
+    <string name="termux_instruction_label">No Termux, execute:</string>
+    <string name="termux_command_value">adb connect localhost:5555\nadb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh</string>
 </resources>

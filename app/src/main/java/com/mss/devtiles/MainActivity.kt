@@ -18,7 +18,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ContentCopy
@@ -65,17 +64,14 @@ fun MainScreen() {
     var isPermissionGranted by remember { 
         mutableStateOf(checkPermission(context)) 
     }
-    val scrollState = androidx.compose.foundation.rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
         Text(
             text = stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.headlineLarge,
@@ -112,7 +108,6 @@ fun MainScreen() {
         ) {
             Text("Verificar Novamente")
         }
-        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
@@ -223,6 +218,8 @@ fun AdbInstructionsSection(context: Context) {
 
 @Composable
 fun LegacyModeSection(context: Context) {
+    val termuxLabel = stringResource(id = R.string.termux_instruction_label)
+    val termuxCmd = stringResource(id = R.string.termux_command_value)
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -260,11 +257,37 @@ fun LegacyModeSection(context: Context) {
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = stringResource(id = R.string.termux_instruction),
+                text = termuxLabel,
                 style = MaterialTheme.typography.labelSmall,
-                fontFamily = FontFamily.Monospace,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
+            
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = termuxCmd,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontFamily = FontFamily.Monospace,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton(onClick = {
+                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("Termux Command", termuxCmd)
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(context, "Comando copiado!", Toast.LENGTH_SHORT).show()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.ContentCopy,
+                        contentDescription = "Copiar comando",
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         }
     }
 }
