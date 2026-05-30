@@ -53,9 +53,6 @@ fun MainScreen() {
         mutableStateOf(checkPermission(context)) 
     }
 
-    // Refresh permission status when activity resumes
-    // In a real app we might use a LifecycleEventObserver
-    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +79,8 @@ fun MainScreen() {
             Text(
                 text = "Tudo pronto! Você já pode adicionar os botões no seu painel de configurações rápidas.",
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
         
@@ -152,26 +150,32 @@ fun AdbInstructionsSection(context: Context) {
         Text(
             text = stringResource(id = R.string.perm_description),
             style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify
+            textAlign = TextAlign.Justify,
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.adb_instruction),
             style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(8.dp))
         
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                .background(
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    RoundedCornerShape(8.dp)
+                )
                 .padding(12.dp)
         ) {
             Text(
                 text = adbCommand,
                 fontFamily = FontFamily.Monospace,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         
@@ -201,23 +205,37 @@ fun checkPermission(context: Context): Boolean {
 }
 
 @Composable
-fun DevTilesTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = lightColorScheme(
-            primary = Color(0xFF6200EE),
-            secondary = Color(0xFF03DAC6)
-        ),
-        content = content
-    )
-}
-       primary = Color(0xFF6750A4),
+fun DevTilesTheme(
+    darkTheme: Boolean = androidx.compose.foundation.isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colorScheme = if (darkTheme) {
+        darkColorScheme(
+            primary = Color(0xFFD0BCFF),
+            secondary = Color(0xFFCCC2DC),
+            tertiary = Color(0xFFEFB8C8),
+            background = Color(0xFF1C1B1F),
+            surface = Color(0xFF1C1B1F),
+            onPrimary = Color(0xFF381E72),
+            onSecondary = Color(0xFF332D41),
+            onBackground = Color(0xFFE6E1E5),
+            onSurface = Color(0xFFE6E1E5),
+            surfaceVariant = Color(0xFF49454F),
+            onSurfaceVariant = Color(0xFFCAC4D0)
+        )
+    } else {
+        lightColorScheme(
+            primary = Color(0xFF6750A4),
             secondary = Color(0xFF625B71),
+            tertiary = Color(0xFF7D5260),
             background = Color(0xFFFFFBFE),
             surface = Color(0xFFFFFBFE),
             onPrimary = Color(0xFFFFFFFF),
             onSecondary = Color(0xFFFFFFFF),
             onBackground = Color(0xFF1C1B1F),
-            onSurface = Color(0xFF1C1B1F)
+            onSurface = Color(0xFF1C1B1F),
+            surfaceVariant = Color(0xFFE7E0EC),
+            onSurfaceVariant = Color(0xFF49454F)
         )
     }
 
