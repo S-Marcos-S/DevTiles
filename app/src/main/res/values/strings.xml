@@ -15,8 +15,7 @@
     <string name="wifi_debug_details">Detalhes da Conexão WiFi</string>
     <string name="ip_address">Endereço IP: %1$s</string>
     <string name="adb_port">Porta ADB: %1$s</string>
-    <string name="open_pairing_screen">Abrir Tela de Pareamento</string>
-    <string name="pairing_not_found">Tela de pareamento não encontrada neste dispositivo.</string>
+
     <string name="legacy_mode_title">Modo Legado (Sem Código)</string>
     <string name="legacy_mode_desc">Tenta forçar a porta 5555. Se funcionar, você pode conectar via Termux sem precisar de código de pareamento.</string>
     <string name="activate_5555">Ativar Porta 5555</string>

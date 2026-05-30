@@ -446,22 +446,6 @@ fun WifiDebugDetailsSection(context: Context) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = stringResource(id = R.string.ip_address, ipAddress))
                 Text(text = stringResource(id = R.string.adb_port, adbPort))
-                
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                Button(
-                    onClick = {
-                        try {
-                            val intent = Intent("android.settings.WIFI_ADB_SETTINGS")
-                            context.startActivity(intent)
-                        } catch (e: Exception) {
-                            Toast.makeText(context, R.string.pairing_not_found, Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(stringResource(id = R.string.open_pairing_screen))
-                }
             }
         }
     }
