@@ -213,15 +213,35 @@ fun AdbInstructionsSection(context: Context) {
 
 @Composable
 fun WifiDebugDetailsSection(context: Context) {
-    val ipAddress = remember { getIpAddress(context) }
-    val adbPort = remember { getAdbWifiPort(context) }
-    val isWifiDebugEnabled = remember { 
-        Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0 
+    var isWifiDebugEnabled by remember { 
+        mutableStateOf(Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0) 
+    }
+    
+    // Observer to detect changes in system settings in real-time
+    DisposableEffect(Unit) {
+        val observer = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) {
+                isWifiDebugEnabled = Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0
+            }
+        }
+        context.contentResolver.registerContentObserver(
+            Settings.Global.getUriFor("adb_wifi_enabled"),
+            false,
+            observer
+        )
+        onDispose {
+            context.contentResolver.unregisterContentObserver(observer)
+        }
     }
 
     if (isWifiDebugEnabled) {
+        val ipAddress = getIpAddress(context)
+        val adbPort = getAdbWifiPort(context)
+        
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
