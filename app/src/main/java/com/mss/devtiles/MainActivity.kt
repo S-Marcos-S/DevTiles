@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -220,8 +221,29 @@ fun AdbInstructionsSection(context: Context) {
 @Composable
 fun LegacyModeSection(context: Context) {
     var showDialog by remember { mutableStateOf<String?>(null) }
+    var showInfoDialog by remember { mutableStateOf(false) }
     val shizukuCmd = stringResource(id = R.string.termux_command_value)
     val termuxAdbCmd = stringResource(id = R.string.termux_adb_connect)
+
+    if (showInfoDialog) {
+        AlertDialog(
+            onDismissRequest = { showInfoDialog = false },
+            title = { Text(stringResource(R.string.legacy_info_title)) },
+            text = {
+                Text(
+                    text = android.text.Html.fromHtml(
+                        stringResource(R.string.legacy_info_content),
+                        android.text.Html.FROM_HTML_MODE_LEGACY
+                    ).toString()
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showInfoDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            }
+        )
+    }
 
     if (showDialog != null) {
         val commandToCopy = showDialog!!
@@ -264,11 +286,28 @@ fun LegacyModeSection(context: Context) {
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(id = R.string.legacy_mode_title),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.legacy_mode_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                IconButton(
+                    onClick = { showInfoDialog = true },
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Informações",
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
             Text(
                 text = stringResource(id = R.string.legacy_mode_desc),
                 style = MaterialTheme.typography.bodySmall

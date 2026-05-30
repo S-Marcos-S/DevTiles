@@ -31,4 +31,7 @@
     <string name="shizuku_dialog_title">Conectar Shizuku</string>
     <string name="termux_dialog_title">Conectar ADB no Termux</string>
     <string name="termux_adb_connect">adb connect localhost:5555</string>
+    
+    <string name="legacy_info_title">Sobre o Modo Legado</string>
+    <string name="legacy_info_content">O Modo Legado utiliza a porta fixa 5555 para contornar a ausência da tela de pareamento (código de 6 dígitos) em alguns dispositivos.\n\n<b>Ativar Porta 5555:</b> Força o Android a aceitar conexões locais sem chaves TLS.\n\n<b>Botão Shizuku:</b> Copia os comandos para conectar e iniciar o serviço do Shizuku via Termux.\n\n<b>Botão Termux:</b> Copia apenas o comando de conexão ADB para uso geral.</string>
 </resources>
