@@ -238,6 +238,27 @@ fun LegacyModeSection(context: Context) {
     var showInfoDialog by remember { mutableStateOf(false) }
     val shizukuCmd = stringResource(id = R.string.termux_command_value)
     val termuxAdbCmd = stringResource(id = R.string.termux_adb_connect)
+    
+    var currentPort by remember { 
+        mutableStateOf(Settings.Global.getInt(context.contentResolver, "adb_wifi_port", 0)) 
+    }
+    var isWifiDebugEnabled by remember { 
+        mutableStateOf(Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0) 
+    }
+
+    DisposableEffect(Unit) {
+        val observer = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) {
+                currentPort = Settings.Global.getInt(context.contentResolver, "adb_wifi_port", 0)
+                isWifiDebugEnabled = Settings.Global.getInt(context.contentResolver, "adb_wifi_enabled", 0) != 0
+            }
+        }
+        context.contentResolver.registerContentObserver(Settings.Global.getUriFor("adb_wifi_port"), false, observer)
+        context.contentResolver.registerContentObserver(Settings.Global.getUriFor("adb_wifi_enabled"), false, observer)
+        onDispose { context.contentResolver.unregisterContentObserver(observer) }
+    }
+
+    val isAlreadyOn5555 = isWifiDebugEnabled && currentPort == 5555
 
     if (showInfoDialog) {
         AlertDialog(
@@ -325,23 +346,24 @@ fun LegacyModeSection(context: Context) {
             
             Spacer(modifier = Modifier.height(4.dp))
             
-            Button(
-                onClick = {
-                    try {
-                        Settings.Global.putInt(context.contentResolver, "adb_wifi_enabled", 1)
-                        Settings.Global.putInt(context.contentResolver, "adb_wifi_port", 5555)
-                        Toast.makeText(context, "Tentando ativar porta 5555...", Toast.LENGTH_SHORT).show()
-                    } catch (e: Exception) {
-                        Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                Text(stringResource(id = R.string.activate_5555), fontSize = 13.sp)
+            if (!isAlreadyOn5555) {
+                Button(
+                    onClick = {
+                        try {
+                            Settings.Global.putInt(context.contentResolver, "adb_wifi_enabled", 1)
+                            Settings.Global.putInt(context.contentResolver, "adb_wifi_port", 5555)
+                            Toast.makeText(context, "Tentando ativar porta 5555...", Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(stringResource(id = R.string.activate_5555), fontSize = 13.sp)
+                }
+                Spacer(modifier = Modifier.height(4.dp))
             }
-
-            Spacer(modifier = Modifier.height(4.dp))
 
             OutlinedButton(
                 onClick = {
@@ -356,7 +378,7 @@ fun LegacyModeSection(context: Context) {
                 Text(stringResource(id = R.string.reset_adb), fontSize = 13.sp)
             }
             
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             
             Row(
                 modifier = Modifier.fillMaxWidth(),
