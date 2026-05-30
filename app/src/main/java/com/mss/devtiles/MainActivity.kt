@@ -214,13 +214,13 @@ fun DevTilesTheme(
             primary = Color(0xFFD0BCFF),
             secondary = Color(0xFFCCC2DC),
             tertiary = Color(0xFFEFB8C8),
-            background = Color(0xFF1C1B1F),
-            surface = Color(0xFF1C1B1F),
+            background = Color(0xFF000000), // Pure AMOLED Black
+            surface = Color(0xFF000000),    // Pure AMOLED Black
             onPrimary = Color(0xFF381E72),
             onSecondary = Color(0xFF332D41),
             onBackground = Color(0xFFE6E1E5),
             onSurface = Color(0xFFE6E1E5),
-            surfaceVariant = Color(0xFF49454F),
+            surfaceVariant = Color(0xFF212121), // Slightly lighter for contrast
             onSurfaceVariant = Color(0xFFCAC4D0)
         )
     } else {
