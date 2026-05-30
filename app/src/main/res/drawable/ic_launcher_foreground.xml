@@ -4,7 +4,7 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- Code brackets and DEV text - Tighter spacing -->
+    <!-- Code brackets and DEV text - Taller and tighter -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M28,40 L18,54 L28,68 L31,65 L23,54 L31,43 Z" /> <!-- < -->
@@ -13,19 +13,19 @@
         android:fillColor="#FFFFFF"
         android:pathData="M80,40 L90,54 L80,68 L77,65 L85,54 L77,43 Z" /> <!-- > -->
 
-    <!-- D -->
+    <!-- D (Taller) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M35,45 H42 C46,45 48,47 48,51 V57 C48,61 46,63 42,63 H35 V45 M38,48 V60 H42 C44,60 45,59 45,57 V51 C45,49 44,48 42,48 H38" />
+        android:pathData="M35,40 H42 C47,40 49,43 49,48 V60 C49,65 47,68 42,68 H35 V40 M38,44 V64 H42 C45,64 46,63 46,60 V48 C46,45 45,44 42,44 H38" />
     
-    <!-- E -->
+    <!-- E (Taller) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M52,45 H62 V48 H55 V52 H61 V55 H55 V60 H62 V63 H52 V45" />
+        android:pathData="M52,40 H62 V44 H55 V51 H61 V57 H55 V64 H62 V68 H52 V40" />
 
-    <!-- V -->
+    <!-- V (Taller) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M66,45 L70,63 H73 L77,45 H74 L71.5,58 L69,45 H66" />
+        android:pathData="M66,40 L70,68 H73 L77,40 H74 L71.5,60 L69,40 H66" />
         
 </vector>
