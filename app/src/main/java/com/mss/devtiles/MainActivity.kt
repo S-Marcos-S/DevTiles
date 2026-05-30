@@ -18,6 +18,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ContentCopy
@@ -64,14 +65,17 @@ fun MainScreen() {
     var isPermissionGranted by remember { 
         mutableStateOf(checkPermission(context)) 
     }
+    val scrollState = androidx.compose.foundation.rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
+        Spacer(modifier = Modifier.height(32.dp))
         Text(
             text = stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.headlineLarge,
@@ -83,7 +87,7 @@ fun MainScreen() {
         
         PermissionStatusCard(isPermissionGranted)
         
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         
         if (!isPermissionGranted) {
             AdbInstructionsSection(context)
@@ -91,20 +95,24 @@ fun MainScreen() {
             WifiDebugDetailsSection(context)
             Spacer(modifier = Modifier.height(16.dp))
             LegacyModeSection(context)
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = "Tudo pronto! Você já pode adicionar os botões no seu painel de configurações rápidas.",
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
         
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         
-        Button(onClick = { isPermissionGranted = checkPermission(context) }) {
+        Button(
+            onClick = { isPermissionGranted = checkPermission(context) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text("Verificar Novamente")
         }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
