@@ -70,45 +70,59 @@ fun MainScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.SpaceBetween 
     ) {
-        Text(
-            text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        PermissionStatusCard(isPermissionGranted)
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        if (!isPermissionGranted) {
-            AdbInstructionsSection(context)
-        } else {
-            WifiDebugDetailsSection(context)
-            Spacer(modifier = Modifier.height(16.dp))
-            LegacyModeSection(context)
+        // Top Section: Title
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "Tudo pronto! Você já pode adicionar os botões no seu painel de configurações rápidas.",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
         }
         
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        Button(
-            onClick = { isPermissionGranted = checkPermission(context) },
-            modifier = Modifier.fillMaxWidth()
+        // Middle Section: Status and Tools (Flexible)
+        Column(
+            modifier = Modifier.weight(1f, fill = false),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Verificar Novamente")
+            PermissionStatusCard(isPermissionGranted)
+            
+            if (!isPermissionGranted) {
+                Box(modifier = Modifier.weight(1f, fill = false)) {
+                    AdbInstructionsSection(context)
+                }
+            } else {
+                WifiDebugDetailsSection(context)
+                LegacyModeSection(context)
+            }
+        }
+        
+        // Bottom Section: Footer and Refresh
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            if (isPermissionGranted) {
+                Text(
+                    text = "Tudo pronto para uso!",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            
+            Button(
+                onClick = { isPermissionGranted = checkPermission(context) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Verificar Novamente")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -285,7 +299,7 @@ fun LegacyModeSection(context: Context) {
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(12.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -308,12 +322,8 @@ fun LegacyModeSection(context: Context) {
                     )
                 }
             }
-            Text(
-                text = stringResource(id = R.string.legacy_mode_desc),
-                style = MaterialTheme.typography.bodySmall
-            )
             
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             
             Button(
                 onClick = {
@@ -325,9 +335,10 @@ fun LegacyModeSection(context: Context) {
                         Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(0.dp)
             ) {
-                Text(stringResource(id = R.string.activate_5555))
+                Text(stringResource(id = R.string.activate_5555), fontSize = 13.sp)
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -339,12 +350,13 @@ fun LegacyModeSection(context: Context) {
                     clipboard.setPrimaryClip(clip)
                     Toast.makeText(context, "Comando 'adb kill-server' copiado!", Toast.LENGTH_SHORT).show()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(0.dp)
             ) {
-                Text(stringResource(id = R.string.reset_adb))
+                Text(stringResource(id = R.string.reset_adb), fontSize = 13.sp)
             }
             
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             
             Row(
                 modifier = Modifier.fillMaxWidth(),
