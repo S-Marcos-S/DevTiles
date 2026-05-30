@@ -96,10 +96,23 @@ fun MainScreen() {
 
 @Composable
 fun PermissionStatusCard(granted: Boolean) {
+    val isDark = androidx.compose.foundation.isSystemInDarkTheme()
+    val containerColor = if (granted) {
+        if (isDark) Color(0xFF1B5E20) else Color(0xFFE8F5E9)
+    } else {
+        if (isDark) Color(0xFFB71C1C) else Color(0xFFFFEBEE)
+    }
+    val contentColor = if (granted) {
+        if (isDark) Color(0xFFC8E6C9) else Color(0xFF2E7D32)
+    } else {
+        if (isDark) Color(0xFFFFCDD2) else Color(0xFFC62828)
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (granted) Color(0xFFE8F5E9) else Color(0xFFFFEBEE)
+            containerColor = containerColor,
+            contentColor = contentColor
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -110,7 +123,7 @@ fun PermissionStatusCard(granted: Boolean) {
             Icon(
                 imageVector = if (granted) Icons.Default.CheckCircle else Icons.Default.Error,
                 contentDescription = null,
-                tint = if (granted) Color(0xFF2E7D32) else Color(0xFFC62828),
+                tint = contentColor,
                 modifier = Modifier.size(48.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -124,7 +137,7 @@ fun PermissionStatusCard(granted: Boolean) {
                     text = if (granted) stringResource(id = R.string.perm_granted) 
                            else stringResource(id = R.string.perm_not_granted),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = if (granted) Color(0xFF2E7D32) else Color(0xFFC62828)
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -194,6 +207,22 @@ fun DevTilesTheme(content: @Composable () -> Unit) {
             primary = Color(0xFF6200EE),
             secondary = Color(0xFF03DAC6)
         ),
+        content = content
+    )
+}
+       primary = Color(0xFF6750A4),
+            secondary = Color(0xFF625B71),
+            background = Color(0xFFFFFBFE),
+            surface = Color(0xFFFFFBFE),
+            onPrimary = Color(0xFFFFFFFF),
+            onSecondary = Color(0xFFFFFFFF),
+            onBackground = Color(0xFF1C1B1F),
+            onSurface = Color(0xFF1C1B1F)
+        )
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
         content = content
     )
 }
