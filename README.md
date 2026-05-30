@@ -1,4 +1,4 @@
-# 🛠️ DevTiles
+#   DevTiles
 
 [![Android](https://img.shields.io/badge/Platform-Android-3DDC84.svg?style=flat-square&logo=android)](https://www.android.com)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF.svg?style=flat-square&logo=kotlin)](https://kotlinlang.org)
@@ -8,7 +8,7 @@
 
 ---
 
-## ✨ Funcionalidades
+##   Funcionalidades
 
 O aplicativo fornece três blocos (Tiles) para o painel de Configurações Rápidas:
 
@@ -18,7 +18,7 @@ O aplicativo fornece três blocos (Tiles) para o painel de Configurações Rápi
 
 ---
 
-## 🚀 Instalação e Configuração
+##   Instalação e Configuração
 
 Devido à natureza sensível das configurações que este app manipula, o Android exige uma permissão especial de nível de sistema (`WRITE_SECURE_SETTINGS`).
 
@@ -39,7 +39,7 @@ adb shell pm grant com.mss.devtiles android.permission.WRITE_SECURE_SETTINGS
 
 ---
 
-## 🛠️ Detalhes Técnicos
+##   Detalhes Técnicos
 
 *   **Linguagem:** Kotlin
 *   **Interface:** Jetpack Compose (Modern Declative UI)
@@ -51,7 +51,7 @@ adb shell pm grant com.mss.devtiles android.permission.WRITE_SECURE_SETTINGS
 
 ---
 
-## 📸 Interface
+##   Interface
 
 O aplicativo possui uma interface simples que:
 1.  Verifica o status da permissão em tempo real.
@@ -60,7 +60,7 @@ O aplicativo possui uma interface simples que:
 
 ---
 
-## 📄 Licença
+##   Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
